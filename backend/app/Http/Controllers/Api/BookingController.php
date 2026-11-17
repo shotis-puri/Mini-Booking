@@ -22,8 +22,6 @@ class BookingController extends Controller
         }
 
         try {
-            // active_slot_id = slot_id для активной брони. UNIQUE-индекс в БД
-            // гарантирует, что при параллельных запросах вставится ровно одна запись.
             $booking = Booking::create([
                 'slot_id' => $slot->id,
                 'active_slot_id' => $slot->id,
@@ -39,12 +37,8 @@ class BookingController extends Controller
 
     public function destroy(int $id): Response
     {
-        // Несуществующий ID -> 404.
         Booking::findOrFail($id);
 
-        // Одним UPDATE: только если бронь ещё активна. active_slot_id = NULL
-        // освобождает UNIQUE-индекс, и слот снова можно бронировать.
-        // Повторная отмена ничего не меняет и тоже отвечает 204 (идемпотентно).
         Booking::query()
             ->whereKey($id)
             ->whereNull('cancelled_at')

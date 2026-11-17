@@ -11,15 +11,8 @@ class SlotSeeder extends Seeder
 
     private const FIRST_HOUR = 9;
 
-    private const LAST_HOUR = 17; // последний слот 17:00–18:00
+    private const LAST_HOUR = 17;
 
-    /**
-     * Создаёт расписание на 7 календарных дней, считая сегодня, по 9 слотов в день.
-     * Время считается в часовом поясе config('app.timezone').
-     *
-     * Идемпотентно: UNIQUE(starts_at) + INSERT OR IGNORE — существующие слоты
-     * (и связанные с ними брони) не затрагиваются, добавляются только недостающие.
-     */
     public function run(): void
     {
         $today = now()->startOfDay();

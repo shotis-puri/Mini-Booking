@@ -23,13 +23,11 @@ class Slot extends Model
         return $this->hasMany(Booking::class);
     }
 
-    /** Текущая активная (не отменённая) бронь слота. */
     public function activeBooking(): HasOne
     {
         return $this->hasOne(Booking::class)->whereNull('cancelled_at');
     }
 
-    /** Слот прошёл, если время начала <= текущему серверному времени. */
     public function isPast(): bool
     {
         return $this->starts_at->lte(now());

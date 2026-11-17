@@ -14,7 +14,6 @@ return new class extends Migration
             $table->dateTime('ends_at');
             $table->timestamps();
 
-            // Защита сидера от дубликатов: один слот на одно время начала.
             $table->unique('starts_at');
         });
     }

@@ -14,13 +14,8 @@ return new class extends Migration
             $table->string('customer_name');
             $table->string('customer_email');
 
-            // Отмена хранится мягко: запись остаётся в истории.
             $table->timestamp('cancelled_at')->nullable();
 
-            // Равно slot_id, пока бронь активна, и NULL после отмены.
-            // UNIQUE-индекс гарантирует на уровне БД не более одной активной
-            // брони на слот (NULL-значения в UNIQUE не конфликтуют между собой).
-            // Работает одинаково в SQLite, MySQL и PostgreSQL.
             $table->unsignedBigInteger('active_slot_id')->nullable()->unique();
 
             $table->timestamps();
